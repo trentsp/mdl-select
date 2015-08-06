@@ -3,8 +3,8 @@
 MDL-Select provides a javascript/jquery based function to include a <select>...<option></option>...</select> in Google's Material Design Lite (http://www.getmdl.io/).
 
 # Dependencies
--JQuery
--Material Design Lite
+- JQuery
+- Material Design Lite
 
 # Usage
 ```javascript
