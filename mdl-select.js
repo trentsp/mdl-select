@@ -17,17 +17,18 @@ $.fn.mdlselect = function(options){
 
   var style = document.createElement('style');
   style.type = 'text/css';
-  style.innerHTML = '.mdl-select-hoverable-action {background: ' + options.hoverColor + '}';
+  style.innerHTML = '.mdl-select-hoverable-action {background: ' + options.hoverColor + '}' +
+                    '.mdl-select-hide {display: none}';
   document.getElementsByTagName('head')[0].appendChild(style);
 
   if (options.value.length == options.label.length && options.value.length > 0){
     theHTML =
-      '<div id="mdl-select-container">' +
+      '<div id="mdl-select-container-' + field[0].id + '">' +
       '<input type="hidden" id="' + field[0].id + '_hidden" name="' + field[0].id + '_hidden" />' +
       '<button id="mdl_select_options_' + field[0].id +'" onclick="mdlSelectFieldFocus(this);" class="mdl-button mdl-js-button mdl-button--icon">' +
       	'<i id="show_mdl_select_options_icon_' + field[0].id +'" class="material-icons">keyboard_arrow_down</i>' +
       '</button>' +
-      '<ul id="mdl-mdlselect-list-' + field[0].id +'" class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="mdl_select_options_' + field[0].id +'" style="width:30em; padding:1em;">';
+      '<ul id="mdl-mdlselect-list-' + field[0].id +'" class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect mdl-select" for="mdl_select_options_' + field[0].id +'" style="width:30em; padding:1em;">';
     for (var selectLoop = 0; selectLoop < options.value.length; selectLoop++){
       theHTML +=
       '<li id="mdl-mdlselect-' + options.value[selectLoop] + '-' + field[0].id + '" class="mdl-mdlselect-hoverable" onclick="updateField(this);">' + options.label[selectLoop] + '</li>';
@@ -47,6 +48,12 @@ $.fn.mdlselect = function(options){
   //
   //                    Listeners
   //
+
+  $("body").click(function(target){ //hides the options when a click happens outside of the select area
+    if ($("#mdl-mdlselect-list-" + field[0].id).hasClass("mdl-select-hide") && target.target.id != field[0].id && $.inArray(target.target, autoComplete.find('.mdl-select')) < 0){
+      $("#mdl-mdlselect-list-" + field[0].id).removeClass("is-visible");
+    }
+  });
 
   $(".mdl-mdlselect-hoverable").hover(
     function(e){
